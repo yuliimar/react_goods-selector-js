@@ -17,13 +17,17 @@ export const goods = [
 
 export const App = () => {
   const [selectedGood, setSelectedGood] = useState('Jam');
+  const [goodsList, setGoodsList] = useState(goods);
 
   const handleAdd = good => {
     setSelectedGood(good);
   };
 
-  const handleRemove = () => {
-    setSelectedGood('');
+  const handleRemove = removedGood => {
+    if (selectedGood === removedGood) {
+      setGoodsList(goodsList.filter(good => good !== removedGood));
+      setSelectedGood('');
+    }
   };
 
   const handleClear = () => {
@@ -50,7 +54,7 @@ export const App = () => {
 
       <table className="table">
         <tbody>
-          {goods.map(good => (
+          {goodsList.map(good => (
             <tr
               key={good}
               data-cy="Good"
@@ -64,7 +68,7 @@ export const App = () => {
                     data-cy="RemoveButton"
                     type="button"
                     className="button is-info"
-                    onClick={handleRemove}
+                    onClick={() => handleRemove(good)}
                   >
                     -
                   </button>
